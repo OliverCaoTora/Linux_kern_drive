@@ -1,1 +1,8 @@
 Linux-4.9.88/
+*.cmd
+*.o
+*.ko
+*.symvers
+*.order
+*.mod.c
+.tmp_versions/
