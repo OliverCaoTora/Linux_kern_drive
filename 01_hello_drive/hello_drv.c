@@ -25,6 +25,7 @@
 
 static int major;
 static unsigned char hello_buf[100];
+static struct class *hello_class;
 
 static int hello_open (struct inode *node, struct file *filp)
 {
@@ -70,6 +71,14 @@ static const struct file_operations hello_drv = {
 static int hello_init(void)
 {
    major = register_chrdev(0, "Oliver_hello", &hello_drv);
+   hello_class = class_create(THIS_MODULE, "hello_class");
+   if(IS_ERR(hello_class))
+   {
+        printk("failed to allocate class\n");
+        return PTR_ERR(hello_class);
+   }
+
+   device_create(hello_class, NULL, MKDEV(major, 0), NULL, "hello");
    return 0;
 }
 
@@ -77,6 +86,9 @@ static int hello_init(void)
 /* 4. exit function */
 static void hello_exit(void)
 {
+    device_destroy(hello_class, MKDEV(major, 0));
+    class_destroy(hello_class);
+    
     unregister_chrdev(major, "Oliver_hello");
 }
 
