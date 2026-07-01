@@ -27,6 +27,8 @@ static int major;
 static unsigned char hello_buf[100];
 static struct class *hello_class;
 
+static unsigned long ret;
+
 static int hello_open (struct inode *node, struct file *filp)
 {
     printk("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
@@ -36,7 +38,7 @@ static ssize_t hello_read (struct file *filp, char __user *buf, size_t size, lof
 {
     unsigned long len = size > 100 ? 100 : size;
     printk("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
-    copy_to_user(buf, hello_buf, len);
+    ret = copy_to_user(buf, hello_buf, len);
     return len;
 }
 
@@ -45,7 +47,7 @@ static ssize_t hello_write(struct file *filp, const char __user *buf, size_t siz
 {
     unsigned long len = size > 100 ? 100 : size;
     printk("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
-    copy_from_user(hello_buf, buf, size);
+    ret = copy_from_user(hello_buf, buf, size);
     return len;
 }
 
@@ -70,7 +72,11 @@ static const struct file_operations hello_drv = {
 /* 3. entry function */
 static int hello_init(void)
 {
+    /*Old methode: register_chrdev*/
    major = register_chrdev(0, "Oliver_hello", &hello_drv);
+   /*new methode: alloc_chrdev_region*/
+
+
    hello_class = class_create(THIS_MODULE, "hello_class");
    if(IS_ERR(hello_class))
    {
@@ -88,7 +94,7 @@ static void hello_exit(void)
 {
     device_destroy(hello_class, MKDEV(major, 0));
     class_destroy(hello_class);
-    
+
     unregister_chrdev(major, "Oliver_hello");
 }
 
