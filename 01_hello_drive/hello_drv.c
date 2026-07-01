@@ -24,6 +24,7 @@
 
 
 static int major;
+static unsigned char hello_buf[100];
 
 static int hello_open (struct inode *node, struct file *filp)
 {
@@ -32,14 +33,19 @@ static int hello_open (struct inode *node, struct file *filp)
 }
 static ssize_t hello_read (struct file *filp, char __user *buf, size_t size, loff_t *offset)
 {
+    unsigned long len = size > 100 ? 100 : size;
     printk("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
-    return size;
+    copy_to_user(buf, hello_buf, len);
+    return len;
 }
 
+// __user is empty define, just for mention
 static ssize_t hello_write(struct file *filp, const char __user *buf, size_t size, loff_t *offset)
 {
+    unsigned long len = size > 100 ? 100 : size;
     printk("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
-    return size;
+    copy_from_user(hello_buf, buf, size);
+    return len;
 }
 
 static int hello_release (struct inode *node, struct file *filp)
