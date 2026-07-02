@@ -83,15 +83,16 @@ static int hello_init(void)
     int ret;
 
     // register_chrdev
-
+    // 1. 申请设备号，申请 1 个 minor
 	ret = alloc_chrdev_region(&dev, 0, 2, "hello");
 	if (ret < 0) {
 		printk(KERN_ERR "alloc_chrdev_region() failed for hello\n");
 		return -EINVAL;
 	}
-
+    // 2. 初始化 cdev
     cdev_init(&hello_cdev, &hello_drv);
 
+    // 3. 添加 cdev 到内核
     ret = cdev_add(&hello_cdev, dev, 2);
 	if (ret)
     {
