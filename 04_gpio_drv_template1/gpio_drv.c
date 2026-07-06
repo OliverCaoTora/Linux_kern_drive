@@ -38,7 +38,7 @@ static struct gpio_desc gpios[2] = {
     {132, 0, "gpio_100ask_2", },
 };
 
-/* 主设备号                                                                 */
+/* 主设备号*/
 static int major = 0;
 static struct class *gpio_class;
 
