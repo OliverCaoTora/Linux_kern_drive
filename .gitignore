@@ -6,3 +6,5 @@ Linux-4.9.88/
 *.order
 *.mod.c
 .tmp_versions/
+
+.cache/
