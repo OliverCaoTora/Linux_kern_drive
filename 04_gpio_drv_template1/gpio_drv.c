@@ -164,7 +164,7 @@ static struct file_operations gpio_key_drv = {
 	.fasync  = gpio_drv_fasync,
 };
 
-
+//知识点： void *dev_id是内核从request_irq中注册的数值再传回来的
 static irqreturn_t gpio_key_isr(int irq, void *dev_id)
 {
 	struct gpio_desc *gpio_desc = dev_id;
@@ -192,6 +192,7 @@ static int __init gpio_drv_init(void)
 		gpios[i].key_timer.expires = ~0;
 		add_timer(&gpios[i].key_timer);
 		err = request_irq(gpios[i].irq, gpio_key_isr, IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING, "100ask_gpio_key", &gpios[i]);
+		// 知识点：request_irq最后一个参数是void *dev_id, 这个值最后会传给isr function的void *dev_id, 所以理论上这个值是可以客制化的
 	}
 
 	/* 注册file_operations 	*/
