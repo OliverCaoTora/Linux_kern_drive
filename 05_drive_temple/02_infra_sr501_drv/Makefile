@@ -23,5 +23,6 @@ clean:
 
 
 
-obj-m += gpio_drv.o
+# obj-m += gpio_drv.o
+obj-m += sr501_drv.o
 
