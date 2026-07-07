@@ -98,6 +98,7 @@ static ssize_t sr04_read (struct file *file, char __user *buf, size_t size, loff
 	if (is_key_buf_empty() && (file->f_flags & O_NONBLOCK))
 		return -EAGAIN;
 
+	// 注 意 ！！ printk里面有raw_spin_lock_irqsave，会把中断关闭！！！
 	// printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);
 
 	wait_event_interruptible(gpio_wait, !is_key_buf_empty());
