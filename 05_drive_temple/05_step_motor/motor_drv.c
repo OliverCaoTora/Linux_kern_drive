@@ -42,12 +42,12 @@ static struct gpio_desc gpios[] = {
     {118, 0, "motor_gpio3", },
 };
 
-/* 主设备号                                                                 */
+/* 主设备号 */
 static int major = 0;
 static struct class *gpio_class;
 
 /* 马达引脚设置数字 */
-static int g_motor_pin_ctrl[8]= {0x2,0x3,0x1,0x9,0x8,0xc,0x4,0x6};
+static int g_motor_pin_ctrl[8]= {0x2,0x3,0x1,0x9,0x8,0xc,0x4,0x6}; // GPIO 0 - 3
 static int g_motor_index = 0;
 
 void set_pins_for_motor(int index)
