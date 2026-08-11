@@ -1,4 +1,8 @@
-﻿#include <linux/module.h>
+﻿/*
+手动加载平台总线设备
+*/
+
+#include <linux/module.h>
 #include <linux/poll.h>
 #include <linux/delay.h>
 #include <linux/fs.h>
