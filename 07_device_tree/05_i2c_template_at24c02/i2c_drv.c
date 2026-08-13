@@ -60,7 +60,7 @@ static ssize_t i2c_drv_read (struct file *file, char __user *buf, size_t size, l
 	msgs[0].len   = 1;
 
 	msgs[1].addr  = g_client->addr;
-	msgs[1].flags = I2C_M_RD;  /* 写操作 */
+	msgs[1].flags = I2C_M_RD;  /* 读操作 */
 	msgs[1].buf   = kern_buf;
 	msgs[1].len   = size;
 
