@@ -189,6 +189,7 @@ static const struct of_device_id myi2c_dt_match[] = {
 	{},
 };
 
+// 在4.9的内核中，i2c设备一定要带上id_table，哪怕你id_table是无意义数据，因为在这个版本的内核中，在进入probe前会判定是否有id_table
 static const struct i2c_device_id at24c02_ids[] = {
 	{ "xxxxyyy",	(kernel_ulong_t)NULL },
 	{ /* END OF LIST */ }
