@@ -63,6 +63,7 @@ static ssize_t spi_drv_write(struct file *file, const char __user *buf, size_t s
 
 	struct spi_transfer t;
 
+	// Tips: 局部变量要初始化，因为被赋予的地址可能早已有值了，全局变量和static则不用初始
 	memset(&t, 0, sizeof(t));
 
 	if (size != 2)
